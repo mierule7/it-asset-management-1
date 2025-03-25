@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import webview
 
 class AssetManagementApp:
     def __init__(self, root):
@@ -72,4 +73,8 @@ class AssetManagementApp:
 if __name__ == "__main__":
     root = tk.Tk()
     app = AssetManagementApp(root)
-    root.mainloop()
+    def start_app():
+        root.mainloop()
+
+    webview.create_window("IT Asset Management", root)
+    webview.start(start_app)
