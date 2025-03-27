@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
-import matplotlib
+
 matplotlib.use('Agg')  # Use the non-GUI backend before importing pyplot
-import matplotlib.pyplot as plt
+
 
 # Database Setup
 def init_db():
