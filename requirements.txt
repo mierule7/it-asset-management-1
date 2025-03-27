@@ -1,4 +1,0 @@
-flask
-matplotlib
-whitenoise
-gunicorn
