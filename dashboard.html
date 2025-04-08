@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IT Asset Management Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+    .dashboard {
+      max-width: 1000px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    .cards {
+      display: flex;
+      gap: 20px;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+    .card {
+      flex: 1;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .card h2 {
+      margin: 10px 0;
+      font-size: 2em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background: #007bff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <h1>IT Asset Management Dashboard</h1>
+
+    <div class="cards">
+      <div class="card">
+        <p>Total Assets</p>
+        <h2 id="totalAssets">--</h2>
+      </div>
+      <div class="card">
+        <p>Assigned</p>
+        <h2 id="assignedAssets">--</h2>
+      </div>
+      <div class="card">
+        <p>In Maintenance</p>
+        <h2 id="maintenanceAssets">--</h2>
+      </div>
+    </div>
+
+    <h2>Recent Assets</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Assigned To</th>
+          <th>Purchase Date</th>
+        </tr>
+      </thead>
+      <tbody id="assetTable">
+        <!-- Filled via JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Simulated data fetch (you would fetch this via an API/backend in production)
+    const assetData = [
+      { name: "Dell Laptop XPS 13", category: "Laptop", status: "Assigned", assigned_to: "John Doe", purchase_date: "2023-06-15" },
+      { name: "HP Monitor 24\"", category: "Monitor", status: "Available", assigned_to: "", purchase_date: "2023-08-10" },
+      { name: "MacBook Pro M2", category: "Laptop", status: "Maintenance", assigned_to: "", purchase_date: "2022-11-25" },
+    ];
+
+    function populateDashboard() {
+      let total = assetData.length;
+      let assigned = assetData.filter(a => a.status === "Assigned").length;
+      let maintenance = assetData.filter(a => a.status === "Maintenance").length;
+
+      document.getElementById("totalAssets").textContent = total;
+      document.getElementById("assignedAssets").textContent = assigned;
+      document.getElementById("maintenanceAssets").textContent = maintenance;
+
+      let table = document.getElementById("assetTable");
+      table.innerHTML = "";
+      assetData.forEach(asset => {
+        table.innerHTML += `
+          <tr>
+            <td>${asset.name}</td>
+            <td>${asset.category}</td>
+            <td>${asset.status}</td>
+            <td>${asset.assigned_to || "-"}</td>
+            <td>${asset.purchase_date}</td>
+          </tr>
+        `;
+      });
+    }
+
+    window.onload = populateDashboard;
+  </script>
+</body>
+</html>
