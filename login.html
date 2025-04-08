@@ -1,91 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-        .login-container h2 {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .form-group button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .form-group button:hover {
-            background-color: #0056b3;
-        }
-        .forgot-password {
-            text-align: center;
-            margin-top: 10px;
-        }
-        .forgot-password a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .forgot-password a:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login with 2FA</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+
+    .button {
+      width: 100%;
+      padding: 0.75rem;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .button:hover {
+      background: #357ab7;
+    }
+
+    .link {
+      display: block;
+      text-align: right;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form action="/login" method="POST">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="2fa">2FA Code</label>
-                <input type="text" id="2fa" name="2fa" placeholder="Enter 2FA code" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Login</button>
-            </div>
-        </form>
-        <div class="forgot-password">
-            <a href="/forgot-password">Forgot Password?</a>
-        </div>
+  <div class="card" id="login-form">
+    <h2>Login</h2>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="email" required />
     </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="password" required />
+    </div>
+    <button class="button" onclick="handleLogin()">Login</button>
+    <a class="link" href="#">Forgot Password?</a>
+  </div>
+
+  <div class="card hidden" id="mfa-form">
+    <h2>Enter 2FA Code</h2>
+    <div class="form-group">
+      <label>Verification Code</label>
+      <input type="text" id="code" maxlength="6" />
+    </div>
+    <button class="button" onclick="verifyCode()">Verify</button>
+  </div>
+
+  <script>
+    function handleLogin() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Simple check (you can integrate actual auth backend here)
+      if (email && password) {
+        // Simulate successful login -> Show MFA form
+        document.getElementById('login-form').classList.add('hidden');
+        document.getElementById('mfa-form').classList.remove('hidden');
+
+        // In a real-world app, you'd send a request to trigger the MFA process
+        alert('Verification code sent to your email or phone.');
+      } else {
+        alert('Please enter email and password.');
+      }
+    }
+
+    function verifyCode() {
+      const code = document.getElementById('code').value;
+
+      // Simulated 2FA verification
+      if (code === '123456') {
+        alert('Login successful!');
+        // Redirect to dashboard or home
+        // window.location.href = '/dashboard';
+      } else {
+        alert('Invalid code. Try again.');
+      }
+    }
+  </script>
 </body>
 </html>
