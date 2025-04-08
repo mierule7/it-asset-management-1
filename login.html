@@ -111,21 +111,25 @@
 
   <script>
     function handleLogin() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-      // Simple check (you can integrate actual auth backend here)
-      if (email && password) {
-        // Simulate successful login -> Show MFA form
+    fetch('login.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         document.getElementById('login-form').classList.add('hidden');
         document.getElementById('mfa-form').classList.remove('hidden');
-
-        // In a real-world app, you'd send a request to trigger the MFA process
-        alert('Verification code sent to your email or phone.');
+        alert('2FA code sent. Please enter it.');
       } else {
-        alert('Please enter email and password.');
+        alert(data.message);
       }
-    }
+    });
+  }
 
     function verifyCode() {
       const code = document.getElementById('code').value;
